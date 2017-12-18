@@ -142,7 +142,7 @@ class Server(object):
             return defer.succeed(self.storage.get(dkey))
         node = Node(dkey)
         nearest = self.protocol.router.findNeighbors(node)
-        if len(nearest) == 0:
+        if len(list(nearest)) == 0:
             self.log.warning("There are no known neighbors to get key %s" % key)
             return defer.succeed(None)
         spider = ValueSpiderCrawl(self.protocol, node, nearest, self.ksize, self.alpha)
@@ -173,7 +173,7 @@ class Server(object):
             return defer.DeferredList(ds).addCallback(self._anyRespondSuccess)
 
         nearest = self.protocol.router.findNeighbors(node)
-        if len(nearest) == 0:
+        if len(list(nearest)) == 0:
             self.log.warning("There are no known neighbors to set key %s" % hkey)
             return defer.succeed(False)
         spider = NodeSpiderCrawl(self.protocol, node, nearest, self.ksize, self.alpha)

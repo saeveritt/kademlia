@@ -89,7 +89,7 @@ class TableTraverser(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         """
         Pop an item from the left subtree, then right, then left, etc.
         """
@@ -99,14 +99,15 @@ class TableTraverser(object):
         if self.left and len(self.leftBuckets) > 0:
             self.currentNodes = self.leftBuckets.pop().getNodes()
             self.left = False
-            return self.next()
+            return self.__next__()
 
         if len(self.rightBuckets) > 0:
             self.currentNodes = self.rightBuckets.pop().getNodes()
             self.left = True
-            return self.next()
+            return self.__next__()
 
         raise StopIteration
+
 
 
 class RoutingTable(object):

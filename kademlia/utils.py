@@ -10,7 +10,7 @@ from twisted.internet import defer
 def digest(s):
     if not isinstance(s, str):
         s = str(s)
-    return hashlib.sha1(s).digest()
+    return hashlib.sha1(s.encode()).digest()
 
 
 def deferredDict(d):
@@ -30,8 +30,11 @@ def deferredDict(d):
 
     def handle(results, names):
         rvalue = {}
-        for index in range(len(results)):
-            rvalue[names[index]] = results[index][1]
+        results = list(results)
+        names = list(names)
+        print(results)
+        for i,v in enumerate(results):
+            rvalue[names[i]] = results[i][1]
         return rvalue
 
     dl = defer.DeferredList(d.values())
